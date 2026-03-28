@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f172a" />
+    <title>Offline | MediVend</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: radial-gradient(circle at top, #1e293b, #0f172a 70%);
+        color: #f8fafc;
+      }
+      .card {
+        width: min(92vw, 480px);
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.35);
+        border-radius: 16px;
+        padding: 24px;
+      }
+      h1 {
+        margin-top: 0;
+        font-size: 1.5rem;
+      }
+      p {
+        line-height: 1.6;
+        color: #cbd5e1;
+      }
+      button {
+        margin-top: 8px;
+        border: 0;
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-weight: 600;
+        background: #06b6d4;
+        color: #0f172a;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1>You are offline</h1>
+      <p>
+        MediVend cannot reach the network right now. Previously visited pages may still work from cache.
+        Reconnect and retry.
+      </p>
+      <button onclick="window.location.reload()">Try again</button>
+    </main>
+  </body>
+</html>

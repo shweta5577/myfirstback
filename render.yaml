@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: medivend-fullstack
+    env: node
+    rootDir: .
+    plan: free
+    buildCommand: npm --prefix client install ; npm --prefix server install ; npm --prefix client run build
+    startCommand: npm --prefix server start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: AUTO_SEED_ON_START
+        value: true

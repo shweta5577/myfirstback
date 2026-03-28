@@ -1,0 +1,409 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@500;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --color-primary: #0891b2;
+  --color-secondary: #8b5cf6;
+  --color-accent: #ec4899;
+  --color-neon-cyan: #00f0ff;
+  --color-neon-purple: #d946ef;
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+body {
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+  color: #1e293b;
+  background: linear-gradient(-45deg, #0f172a 0%, #1a1f3a 25%, #0d1b2a 50%, #1e2847 75%, #0f172a 100%);
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.3), 0 0 40px rgba(217, 70, 239, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.5), 0 0 60px rgba(217, 70, 239, 0.3);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ==================== UTILITY CLASSES ==================== */
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown 0.6s ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.6s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.6s ease-out;
+}
+
+.animate-glow {
+  animation: glow 3s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* ==================== GLASSMORPHISM ==================== */
+.glass {
+  background: rgba(30, 41, 59, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(100, 116, 139, 0.2);
+  border-radius: 16px;
+}
+
+.glass-light {
+  background: rgba(248, 250, 252, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(226, 232, 240, 0.3);
+  border-radius: 16px;
+}
+
+.glass-dark {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(0, 240, 255, 0.1);
+  border-radius: 16px;
+}
+
+/* ==================== GRADIENT BACKGROUNDS ==================== */
+.gradient-cyber {
+  background: linear-gradient(135deg, #0891b2 0%, #8b5cf6 50%, #ec4899 100%);
+}
+
+.gradient-neon {
+  background: linear-gradient(135deg, #00f0ff 0%, #d946ef 100%);
+}
+
+.gradient-dark {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+.gradient-success {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+/* ==================== SHADOW EFFECTS ==================== */
+.shadow-glow-cyan {
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.3), 0 0 40px rgba(0, 240, 255, 0.1);
+}
+
+.shadow-glow-purple {
+  box-shadow: 0 0 20px rgba(217, 70, 239, 0.3), 0 0 40px rgba(217, 70, 239, 0.1);
+}
+
+.shadow-glow-pink {
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.3), 0 0 40px rgba(236, 72, 153, 0.1);
+}
+
+.shadow-lg-glow {
+  box-shadow: 0 20px 60px rgba(0, 240, 255, 0.15), 0 0 40px rgba(217, 70, 239, 0.1);
+}
+
+/* ==================== BUTTONS ==================== */
+.btn-primary {
+  @apply relative overflow-hidden rounded-xl px-6 py-3 font-semibold text-white transition-all duration-300;
+  background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%);
+  box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(6, 182, 212, 0.5), 0 10px 30px rgba(6, 182, 212, 0.2);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  @apply relative overflow-hidden rounded-xl px-6 py-3 font-semibold text-white transition-all duration-300;
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.5), 0 10px 30px rgba(139, 92, 246, 0.2);
+}
+
+.btn-accent {
+  @apply relative overflow-hidden rounded-xl px-6 py-3 font-semibold text-white transition-all duration-300;
+  background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.3);
+}
+
+.btn-accent:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(236, 72, 153, 0.5), 0 10px 30px rgba(236, 72, 153, 0.2);
+}
+
+.btn-outline {
+  @apply rounded-xl px-6 py-3 font-semibold transition-all duration-300;
+  border: 2px solid var(--color-neon-cyan);
+  color: var(--color-neon-cyan);
+  background: transparent;
+}
+
+.btn-outline:hover {
+  background: rgba(0, 240, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+}
+
+/* ==================== INPUTS ==================== */
+.input-modern {
+  @apply w-full rounded-xl border-2 border-slate-200 bg-white/50 px-4 py-3 font-medium backdrop-blur-sm transition-all duration-300;
+  font-family: "Manrope", sans-serif;
+}
+
+.input-modern:focus {
+  outline: none;
+  border-color: var(--color-neon-cyan);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+  background: rgba(248, 250, 252, 0.9);
+}
+
+.input-modern::placeholder {
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+/* ==================== CARDS ==================== */
+.card-modern {
+  @apply rounded-2xl p-6 transition-all duration-300;
+  background: rgba(248, 250, 252, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(226, 232, 240, 0.3);
+}
+
+.card-modern:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 240, 255, 0.2);
+  box-shadow: 0 10px 40px rgba(0, 240, 255, 0.1);
+}
+
+.card-dark {
+  @apply rounded-2xl p-6 transition-all duration-300;
+  background: rgba(30, 41, 59, 0.5);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(100, 116, 139, 0.2);
+}
+
+.card-dark:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 240, 255, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 240, 255, 0.15);
+}
+
+/* ==================== BADGES ==================== */
+.badge-cyan {
+  @apply inline-block rounded-full px-4 py-1 text-xs font-bold uppercase tracking-wider;
+  background: rgba(0, 240, 255, 0.2);
+  color: var(--color-neon-cyan);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+}
+
+.badge-purple {
+  @apply inline-block rounded-full px-4 py-1 text-xs font-bold uppercase tracking-wider;
+  background: rgba(217, 70, 239, 0.2);
+  color: var(--color-neon-purple);
+  border: 1px solid rgba(217, 70, 239, 0.3);
+}
+
+.badge-pink {
+  @apply inline-block rounded-full px-4 py-1 text-xs font-bold uppercase tracking-wider;
+  background: rgba(236, 72, 153, 0.2);
+  color: #ec4899;
+  border: 1px solid rgba(236, 72, 153, 0.3);
+}
+
+/* ==================== HEADINGS ==================== */
+.heading-hero {
+  @apply font-display text-5xl font-bold tracking-tight;
+  background: linear-gradient(135deg, #00f0ff 0%, #d946ef 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.heading-section {
+  @apply text-3xl font-bold text-slate-900;
+}
+
+/* ==================== TABLES ==================== */
+.table-modern {
+  @apply w-full border-collapse;
+}
+
+.table-modern thead {
+  @apply bg-gradient-to-r from-slate-900 to-slate-800;
+}
+
+.table-modern th {
+  @apply px-6 py-4 text-left font-bold text-cyan-400;
+  border-bottom: 2px solid rgba(0, 240, 255, 0.2);
+}
+
+.table-modern td {
+  @apply px-6 py-4 border-b border-slate-700 text-slate-200;
+}
+
+.table-modern tbody tr {
+  @apply transition-colors duration-200;
+}
+
+.table-modern tbody tr:hover {
+  @apply bg-slate-700/55;
+}
+
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 1024px) {
+  .heading-hero {
+    font-size: 2.5rem;
+    line-height: 1.1;
+  }
+
+  .heading-section {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    background-size: 300% 300%;
+  }
+
+  .heading-hero {
+    font-size: 2rem;
+  }
+
+  .table-modern th,
+  .table-modern td {
+    padding: 0.625rem;
+    font-size: 0.875rem;
+  }
+}
