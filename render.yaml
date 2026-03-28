@@ -14,3 +14,19 @@ services:
         value: 10000
       - key: AUTO_SEED_ON_START
         value: true
+      - key: MONGO_URI
+        sync: false
+      - key: MONGO_DB_NAME
+        value: medivend
+      - key: JWT_SECRET
+        sync: false
+      - key: CLIENT_ORIGIN
+        sync: false
+      - key: LOW_STOCK_THRESHOLD
+        value: 10
+      - key: EXPIRY_ALERT_DAYS
+        value: 30
+      - key: MAX_TEMP
+        value: 35
+      - key: FIREBASE_SERVICE_ACCOUNT_JSON
+        sync: false

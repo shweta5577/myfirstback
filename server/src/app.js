@@ -13,8 +13,12 @@ const notificationRoutes = require("./routes/notificationRoutes");
 const { saveFcmToken } = require("./controllers/notificationController");
 const seedData = require("./seed/seedData");
 const { auth, allowRoles } = require("./middleware/auth");
+const { initializeFirebaseAdmin } = require("./config/firebaseAdmin");
 
 const app = express();
+
+// Safe to call at startup because firebaseAdmin.js prevents duplicate initialization.
+initializeFirebaseAdmin();
 
 const parseAllowedOrigins = () => {
   const origins = (process.env.CLIENT_ORIGIN || "")

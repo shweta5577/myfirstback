@@ -1,24 +1,21 @@
-const path = require("path");
 const admin = require("firebase-admin");
 
 let firebaseApp = null;
 let firebaseInitError = null;
 
 const loadServiceAccount = () => {
-  try {
-    if (process.env.FIREBASE_SERVICE_ACCOUNT_JSON) {
-      return JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
-    }
+  const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
 
-    if (process.env.FIREBASE_SERVICE_ACCOUNT_PATH) {
-      const resolvedPath = path.resolve(process.cwd(), process.env.FIREBASE_SERVICE_ACCOUNT_PATH);
-      // eslint-disable-next-line global-require, import/no-dynamic-require
-      return require(resolvedPath);
-    }
-
+  if (!serviceAccountJson) {
     return null;
+  }
+
+  try {
+    return JSON.parse(serviceAccountJson);
   } catch (error) {
-    const wrappedError = new Error(`Invalid Firebase service account configuration: ${error.message}`);
+    const wrappedError = new Error(
+      `Invalid Firebase service account JSON: ${error.message}. Ensure FIREBASE_SERVICE_ACCOUNT_JSON is a valid JSON string.`
+    );
     wrappedError.code = "firebase-admin/config-error";
     throw wrappedError;
   }
@@ -38,25 +35,29 @@ const initializeFirebaseAdmin = () => {
     return firebaseApp;
   }
 
-  const serviceAccount = loadServiceAccount();
-  if (!serviceAccount) {
-    // eslint-disable-next-line no-console
-    console.warn("Firebase Admin credentials are missing. Push notifications are disabled.");
-    return null;
-  }
-
   try {
+    const serviceAccount = loadServiceAccount();
+    if (!serviceAccount) {
+      firebaseInitError = new Error(
+        "Firebase Admin initialization skipped: FIREBASE_SERVICE_ACCOUNT_JSON environment variable is not set. " +
+        "Push notifications will be disabled until the environment variable is properly configured."
+      );
+      // eslint-disable-next-line no-console
+      console.warn("[Firebase Admin]", firebaseInitError.message);
+      return null;
+    }
+
     firebaseApp = admin.initializeApp({
       credential: admin.credential.cert(serviceAccount)
     });
     // eslint-disable-next-line no-console
-    console.log("Firebase Admin initialized successfully");
+    console.log("[Firebase Admin] Successfully initialized with FIREBASE_SERVICE_ACCOUNT_JSON environment variable");
     return firebaseApp;
   } catch (error) {
     firebaseInitError = new Error(`Firebase Admin initialization failed: ${error.message}`);
     firebaseInitError.code = "firebase-admin/init-failed";
     // eslint-disable-next-line no-console
-    console.error(firebaseInitError.message);
+    console.error("[Firebase Admin]", firebaseInitError.message);
     return null;
   }
 };

@@ -5,7 +5,6 @@ const app = require("./app");
 const connectDB = require("./config/db");
 const { setSocketServer } = require("./config/socket");
 const { startDispenseScheduler } = require("./services/dispenseScheduler");
-const { initializeFirebaseAdmin } = require("./config/firebaseAdmin");
 const { runStartupSeed } = require("./services/startupSeeder");
 
 const port = Number(process.env.PORT || 5000);
@@ -30,7 +29,6 @@ const getSocketCorsOrigin = () => {
 const bootstrap = async () => {
   await connectDB();
   await runStartupSeed();
-  initializeFirebaseAdmin();
 
   const httpServer = http.createServer(app);
   const io = new Server(httpServer, {

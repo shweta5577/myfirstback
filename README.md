@@ -120,12 +120,6 @@ Option 1: File path configuration
 3. Add to `server/.env`:
 
 ```bash
-FIREBASE_SERVICE_ACCOUNT_PATH=./firebase-service-account.json
-```
-
-Option 2: JSON string configuration
-
-```bash
 FIREBASE_SERVICE_ACCOUNT_JSON={"type":"service_account",...}
 ```
 
@@ -223,7 +217,6 @@ EXPIRY_ALERT_DAYS=30
 MAX_TEMP=35
 AUTO_SEED_ON_START=true
 FIREBASE_SERVICE_ACCOUNT_JSON=<single-line firebase service account JSON>
-# OR use FIREBASE_SERVICE_ACCOUNT_PATH if you mount a file in another environment
 ```
 
 5. Deploy and open:

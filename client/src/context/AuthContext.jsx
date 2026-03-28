@@ -60,15 +60,18 @@ export function AuthProvider({ children }) {
     }
 
     const saveToken = async () => {
-      const fcmToken = await requestNotificationPermissionAndToken();
-      if (!fcmToken) {
-        return;
-      }
-
       try {
-        await api.post("/save-token", { token: fcmToken });
+        const fcmToken = await requestNotificationPermissionAndToken();
+        if (!fcmToken) {
+          console.warn("[FCM] Token was not generated. Skipping /api/save-token.");
+          return;
+        }
+
+        console.log("[FCM] Sending token to backend /api/save-token");
+        const response = await api.post("/save-token", { token: fcmToken });
+        console.log("[FCM] Token saved successfully:", response?.data);
       } catch (error) {
-        console.error("Unable to save FCM token", error);
+        console.error("[FCM] Unable to save FCM token to backend:", error);
       }
     };
 

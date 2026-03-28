@@ -18,31 +18,46 @@ async function getMessagingInstance() {
 }
 
 export async function requestNotificationPermissionAndToken() {
-  if (typeof window === "undefined" || !("Notification" in window)) {
+  try {
+    if (typeof window === "undefined" || !("Notification" in window)) {
+      console.warn("[FCM] Notifications are not supported in this environment.");
+      return null;
+    }
+
+    if (!vapidKey) {
+      console.warn("[FCM] VAPID key is missing. Set VITE_FIREBASE_VAPID_KEY.");
+      return null;
+    }
+
+    const messaging = await getMessagingInstance();
+    if (!messaging) {
+      console.warn("[FCM] Messaging is not supported or Firebase app is not configured.");
+      return null;
+    }
+
+    const permission = await Notification.requestPermission();
+    if (permission !== "granted") {
+      console.warn(`[FCM] Notification permission not granted: ${permission}`);
+      return null;
+    }
+
+    const serviceWorkerRegistration = await navigator.serviceWorker.ready.catch(() => null);
+    const token = await getToken(messaging, {
+      vapidKey,
+      serviceWorkerRegistration: serviceWorkerRegistration || undefined
+    });
+
+    if (!token) {
+      console.warn("[FCM] No token returned by Firebase Messaging.");
+      return null;
+    }
+
+    console.log("[FCM] Token generated:", token);
+    return token;
+  } catch (error) {
+    console.error("[FCM] Failed to request permission or get token:", error);
     return null;
   }
-
-  if (!vapidKey) {
-    console.warn("FCM VAPID key is missing. Set VITE_FIREBASE_VAPID_KEY.");
-    return null;
-  }
-
-  const messaging = await getMessagingInstance();
-  if (!messaging) {
-    return null;
-  }
-
-  const permission = await Notification.requestPermission();
-  if (permission !== "granted") {
-    return null;
-  }
-
-  const serviceWorkerRegistration = await navigator.serviceWorker.ready.catch(() => null);
-
-  return getToken(messaging, {
-    vapidKey,
-    serviceWorkerRegistration: serviceWorkerRegistration || undefined
-  });
 }
 
 export async function subscribeToForegroundNotifications(handler) {

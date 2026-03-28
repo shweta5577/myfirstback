@@ -22,17 +22,42 @@ const markNotificationRead = async (req, res) => {
 const saveFcmToken = async (req, res) => {
   try {
     const { token } = req.body;
-    if (!token || typeof token !== "string") {
+    if (!token || typeof token !== "string" || !token.trim()) {
+      // eslint-disable-next-line no-console
+      console.error("[FCM][API /save-token] Invalid token payload", {
+        userId: req.user?._id?.toString?.(),
+        tokenType: typeof token
+      });
       return res.status(400).json({ message: "Valid FCM token is required" });
     }
 
-    await User.findByIdAndUpdate(req.user._id, {
-      $set: { fcmToken: token },
-      $addToSet: { fcmTokens: token }
+    const safeToken = token.trim();
+    const tokenPreview = `${safeToken.slice(0, 10)}...`;
+
+    // eslint-disable-next-line no-console
+    console.log("[FCM][API /save-token] Saving token", {
+      userId: req.user?._id?.toString?.(),
+      tokenPreview
     });
 
-    return res.json({ message: "FCM token saved" });
+    await User.findByIdAndUpdate(req.user._id, {
+      $set: { fcmToken: safeToken },
+      $addToSet: { fcmTokens: safeToken }
+    });
+
+    // eslint-disable-next-line no-console
+    console.log("[FCM][API /save-token] Token saved", {
+      userId: req.user?._id?.toString?.(),
+      tokenPreview
+    });
+
+    return res.json({ success: true, message: "FCM token saved" });
   } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error("[FCM][API /save-token] Failed to save token", {
+      userId: req.user?._id?.toString?.(),
+      error: error.message
+    });
     return res.status(500).json({ message: "Unable to save FCM token", error: error.message });
   }
 };
@@ -40,8 +65,21 @@ const saveFcmToken = async (req, res) => {
 const sendPushNotification = async (req, res) => {
   try {
     const { token, title, body } = req.body;
+    // eslint-disable-next-line no-console
+    console.log("[FCM][API /notifications/push] Sending push request", {
+      requestedBy: req.user?._id?.toString?.(),
+      tokenPreview: typeof token === "string" ? `${token.slice(0, 10)}...` : "invalid-token",
+      hasTitle: Boolean(title),
+      hasBody: Boolean(body)
+    });
+
     const result = await sendNotification(token, title, body);
     if (result.success) {
+      // eslint-disable-next-line no-console
+      console.log("[FCM][API /notifications/push] Push sent", {
+        requestedBy: req.user?._id?.toString?.(),
+        messageId: result.messageId
+      });
       return res.json({ message: "Push notification sent", ...result });
     }
 
@@ -73,6 +111,14 @@ const sendPushToUser = async (req, res) => {
     }
 
     const tokens = [...new Set([targetUser.fcmToken, ...(targetUser.fcmTokens || [])].filter(Boolean))];
+
+    // eslint-disable-next-line no-console
+    console.log("[FCM][API /notifications/push/user] Loaded target user tokens", {
+      requestedBy: req.user?._id?.toString?.(),
+      targetUserId: userId,
+      tokenCount: tokens.length,
+      tokenPreviews: tokens.slice(0, 3).map((item) => `${item.slice(0, 10)}...`)
+    });
 
     if (!tokens.length) {
       return res.status(400).json({ message: "Target user has no FCM tokens" });
